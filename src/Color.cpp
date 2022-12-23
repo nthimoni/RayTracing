@@ -6,13 +6,14 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:09:02 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/22 03:19:47 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/23 03:30:52 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 
 #include "Color.hpp"
+#include "raytracing.hpp"
 
 Color::Color(const int color)
 {
@@ -44,6 +45,23 @@ Color Color::operator+(const Color& rhs) const
 {
 	return Color{r() + rhs.r(), g() + rhs.g(), b() + rhs.b()};
 }
+
+Color& Color::operator+=(const Color& rhs)
+{
+	r() += rhs.r();
+	g() += rhs.g();
+	b() += rhs.b();
+	return *this;;
+}
+
+Color& Color::operator/=(const unit factor)
+{
+	r() /= factor;
+	g() /= factor;
+	b() /= factor;
+	return *this;;
+}
+
 Color Color::operator*(const unit factor) const
 {
 	return Color{r() * factor, g() * factor, b() * factor}; 
@@ -51,8 +69,8 @@ Color Color::operator*(const unit factor) const
 
 std::ostream& operator<<(std::ostream& out, const Color& color)
 {
-	out << static_cast<int>(color.r() * 255.999)
-		<< " " << static_cast<int>(color.g() * 255.999)
-		<< " " << static_cast<int>(color.b() * 255.999);
+	out << static_cast<int>(clamp(color.r(), 0, 0.999) * 256)
+		<< " " << static_cast<int>(clamp(color.g(), 0, 0.999) * 256)
+		<< " " << static_cast<int>(clamp(color.b(), 0, 0.999) * 256);
 	return out;
 }

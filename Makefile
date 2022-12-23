@@ -4,7 +4,8 @@ INCDIR = include/
 MLXPATH = minilibx-linux/
 MLX = $(MLXPATH)libmlx.a
 ######################################################################
-SRCS = main.cpp Tup3.cpp Vec3.cpp Point3.cpp Color.cpp Ray.cpp
+SRCS = main.cpp Tup3.cpp Vec3.cpp Point3.cpp Color.cpp Ray.cpp Sphere.cpp \
+	   HittableList.cpp Camera.cpp
 OBJS = $(addprefix $(OBJDIR),$(SRCS:.cpp=.o))
 DEPENDS = $(OBJS:.o=.d)
 ######################################################################

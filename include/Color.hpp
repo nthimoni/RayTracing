@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:00:12 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/22 03:19:45 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/23 03:31:41 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ class Color
 		int toInt() const;
 
 		Color& operator=(const Color& ent) = default;
+		Color& operator+=(const Color& rhs);
+		Color& operator/=(const unit factor);
 
 		Color operator+(const Color& rhs) const;
 		Color operator*(const unit factor) const;
