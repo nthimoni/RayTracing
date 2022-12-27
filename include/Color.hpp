@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:00:12 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/25 20:09:04 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/27 19:47:30 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ class Color
 		const unit& g() const;
 		const unit& b() const;
 		const unit& a() const;
+		void print(std::ostream& out, int spp) const;
 		int toInt() const;
-		Color print(int spp);
 
 		Color& operator=(const Color& ent) = default;
 		Color& operator+=(const Color& rhs);

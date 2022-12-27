@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 04:47:17 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/25 19:51:23 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/27 19:52:17 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ Color defineColor(const Ray& ray, const HittableList& scene, int depth)
 	if (depth <= 0)
 		return {0, 0, 0};
 	Inter inter;
-	if (scene.hit(ray, 0, infinity, inter))
+	if (scene.hit(ray, 0.001, infinity, inter))
 	{
 		Point3 target = inter.pos + inter.normal + inter.randomInUnitSphere();
 		return defineColor(Ray{inter.pos, target - inter.pos}, scene, depth - 1) * 0.5;
@@ -43,8 +43,8 @@ Color defineColor(const Ray& ray, const HittableList& scene, int depth)
 int main()
 {
 	// GENERAL
-	constexpr int maxDepth = 50;
-	constexpr int sampelsPerPixel = 10;
+	constexpr int maxDepth = 10;
+	constexpr int sampelsPerPixel = 15;
 	// IMG
 	constexpr unit ratio = 16.0 / 9.0;
     constexpr int image_width = 800;
@@ -69,8 +69,8 @@ int main()
 				Ray r = cam.getRay(u, v);
 				pixelColor += defineColor(r, scene, maxDepth);
 			}
-			pixelColor /= sampelsPerPixel;
-			std::cout << pixelColor.gamaCorrection(sampelsPerPixel) << '\n';
+			pixelColor.print(std::cout, sampelsPerPixel);
+			std::cout << '\n';
 		}
 	}
 

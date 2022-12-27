@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:09:02 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/26 02:38:22 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/27 19:46:55 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,16 @@ Color Color::operator*(const unit factor) const
 	return Color{r() * factor, g() * factor, b() * factor}; 
 }
 
-void Color::print(std::ostream& out, int spp)
+void Color::print(std::ostream& out, int spp) const
 {
 	unit scale = 1.0 / spp;
-	
+	unit r = std::sqrt(scale * this->r());
+	unit g = std::sqrt(scale * this->g());
+	unit b = std::sqrt(scale * this->b());
+
+	out << static_cast<int>(clamp(r, 0, 0.999) * 256)
+		<< " " << static_cast<int>(clamp(g, 0, 0.999) * 256)
+		<< " " << static_cast<int>(clamp(b, 0, 0.999) * 256);	
 }
 
 
