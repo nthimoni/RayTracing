@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 04:47:17 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/23 03:43:32 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/25 19:51:23 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,15 @@
 #include "Color.hpp"
 #include "Ray.hpp"
 
-Color defineColor(const Ray& ray, const HittableList& scene)
+Color defineColor(const Ray& ray, const HittableList& scene, int depth)
 {
+	if (depth <= 0)
+		return {0, 0, 0};
 	Inter inter;
 	if (scene.hit(ray, 0, infinity, inter))
 	{
-		return Color{inter.normal.x + 1, inter.normal.y + 1, inter.normal.z + 1} * 0.5;
+		Point3 target = inter.pos + inter.normal + inter.randomInUnitSphere();
+		return defineColor(Ray{inter.pos, target - inter.pos}, scene, depth - 1) * 0.5;
 	}
 	Vec3 unit_direction{ray.direction().getUnitVec()};
 	auto t = 0.5 * (unit_direction.y + 1.0);
@@ -39,6 +42,9 @@ Color defineColor(const Ray& ray, const HittableList& scene)
 
 int main()
 {
+	// GENERAL
+	constexpr int maxDepth = 50;
+	constexpr int sampelsPerPixel = 10;
 	// IMG
 	constexpr unit ratio = 16.0 / 9.0;
     constexpr int image_width = 800;
@@ -52,9 +58,6 @@ int main()
 	scene.add(std::make_shared<Sphere>(Point3(0, 0, -1), 0.5));
 	scene.add(std::make_shared<Sphere>(Point3(0, -100.5, -1), 100));
 
-	//SAMPLES
-	constexpr int sampelsPerPixel = 10;
-
 	std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 	for (int j = image_height-1; j >= 0; --j) {
 		std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
@@ -64,10 +67,10 @@ int main()
 				auto u = (i + random_unit()) / (image_width-1);
 				auto v = (j + random_unit()) / (image_height-1);
 				Ray r = cam.getRay(u, v);
-				pixelColor += defineColor(r, scene);
+				pixelColor += defineColor(r, scene, maxDepth);
 			}
 			pixelColor /= sampelsPerPixel;
-			std::cout << pixelColor << '\n';
+			std::cout << pixelColor.gamaCorrection(sampelsPerPixel) << '\n';
 		}
 	}
 

@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 20:54:19 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/23 01:47:10 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/25 18:59:45 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,15 @@ struct Inter
 	{
 		frontFace = ray.direction().dot(outwardNormal);
 		normal = frontFace ? outwardNormal : -outwardNormal;
+	}
+	static inline Vec3 randomInUnitSphere()
+	{
+		while (1)
+		{
+			Vec3 v = Vec3::random(-1, 1);
+			if (v.lengthSquared() < 1)
+				return v;
+		}
 	}
 };
 

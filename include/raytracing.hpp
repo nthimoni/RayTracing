@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 19:40:47 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/23 03:22:45 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/23 04:27:56 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,15 @@ inline unit degreesToRadians(const unit degrees)
 	return degrees * M_PI / 180.0;
 }
 
-inline unit random_unit() {
+inline static unit random_unit() {
 	static std::random_device rd;
     static std::mt19937 generator(rd());
     static std::uniform_real_distribution<unit> distribution(0.0, 0.99999999999);
     return distribution(generator);
 }
 
-inline unit random_unit(unit min, unit max) {
+inline unit random_unit(unit min, unit max)
+{
     return min + (max-min) * random_unit();
 }
 

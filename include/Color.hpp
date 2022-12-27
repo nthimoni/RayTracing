@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:00:12 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/23 03:31:41 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/25 20:09:04 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ class Color
 		const unit& b() const;
 		const unit& a() const;
 		int toInt() const;
+		Color print(int spp);
 
 		Color& operator=(const Color& ent) = default;
 		Color& operator+=(const Color& rhs);

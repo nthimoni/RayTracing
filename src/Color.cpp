@@ -6,11 +6,12 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:09:02 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/23 03:30:52 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/26 02:38:22 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
+#include <ostream>
 
 #include "Color.hpp"
 #include "raytracing.hpp"
@@ -66,6 +67,13 @@ Color Color::operator*(const unit factor) const
 {
 	return Color{r() * factor, g() * factor, b() * factor}; 
 }
+
+void Color::print(std::ostream& out, int spp)
+{
+	unit scale = 1.0 / spp;
+	
+}
+
 
 std::ostream& operator<<(std::ostream& out, const Color& color)
 {
