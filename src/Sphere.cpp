@@ -6,16 +6,20 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 21:36:59 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/23 01:46:18 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/28 05:36:31 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Sphere.hpp"
+#include "Hittable.hpp"
 #include "Point3.hpp"
 #include "Vec3.hpp"
+#include "Material.hpp"
 #include <cmath>
+#include <memory>
 
-Sphere::Sphere(const Point3& center, const unit radius) : _center(center), _radius(radius) {}
+Sphere::Sphere(const Point3& center, const unit radius, std::shared_ptr<Material> mat)
+	: _center(center), _radius(radius) { this->mat = mat; }
 
 bool Sphere::hit(const Ray& ray, unit t_min, unit t_max, Inter& inter) const
 {

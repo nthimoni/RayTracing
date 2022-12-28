@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 04:47:17 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/27 19:52:17 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/28 03:56:37 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ Color defineColor(const Ray& ray, const HittableList& scene, int depth)
 	Inter inter;
 	if (scene.hit(ray, 0.001, infinity, inter))
 	{
-		Point3 target = inter.pos + inter.normal + inter.randomInUnitSphere();
+		Point3 target = inter.pos + inter.normal + inter.randomInUnitSphere().getUnitVec();
 		return defineColor(Ray{inter.pos, target - inter.pos}, scene, depth - 1) * 0.5;
 	}
 	Vec3 unit_direction{ray.direction().getUnitVec()};
@@ -43,8 +43,8 @@ Color defineColor(const Ray& ray, const HittableList& scene, int depth)
 int main()
 {
 	// GENERAL
-	constexpr int maxDepth = 10;
-	constexpr int sampelsPerPixel = 15;
+	constexpr int maxDepth = 3;
+	constexpr int sampelsPerPixel = 100;
 	// IMG
 	constexpr unit ratio = 16.0 / 9.0;
     constexpr int image_width = 800;
@@ -56,7 +56,9 @@ int main()
 	//SCENE
 	HittableList scene;
 	scene.add(std::make_shared<Sphere>(Point3(0, 0, -1), 0.5));
-	scene.add(std::make_shared<Sphere>(Point3(0, -100.5, -1), 100));
+	//scene.add(std::make_shared<Sphere>(Point3(0.5, 0, -1), 0.5));
+	//scene.add(std::make_shared<Sphere>(Point3(-0.5, 0, -1), 0.5));
+	scene.add(std::make_shared<Sphere>(Point3(0, -150.5, -1), 150));
 
 	std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 	for (int j = image_height-1; j >= 0; --j) {

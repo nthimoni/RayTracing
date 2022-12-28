@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 20:54:19 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/25 18:59:45 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/28 05:35:22 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,15 @@
 # include "Vec3.hpp"
 # include "Ray.hpp"
 # include "raytracing.hpp"
+# include <memory>
+
+class Material;
 
 struct Inter
 {
 	Point3 pos;
 	Vec3 normal;
+	std::shared_ptr<Material> material;
 	unit t;
 	bool frontFace;
 	inline void setFaceNormal(const Ray& ray, const Vec3& outwardNormal)
@@ -44,6 +48,8 @@ class Hittable
 {
 	public:
 		virtual bool hit(const Ray& ray, unit t_min, unit t_max, Inter& inter) const = 0;
+	protected:
+		std::shared_ptr<Material> mat;
 };
 
 #endif 
