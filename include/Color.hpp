@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:00:12 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/27 19:47:30 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/28 21:15:06 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ class Color
 
 		Color operator+(const Color& rhs) const;
 		Color operator*(const unit factor) const;
+		Color operator*(const Color& other) const;
 	private:
 		unit _bgra[4]{0, 0, 0, 0};
 };

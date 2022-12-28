@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 20:54:19 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/28 05:35:22 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/28 21:12:42 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ class Hittable
 	public:
 		virtual bool hit(const Ray& ray, unit t_min, unit t_max, Inter& inter) const = 0;
 	protected:
-		std::shared_ptr<Material> mat;
+		std::shared_ptr<Material> _mat;
 };
 
 #endif 

@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:09:02 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/27 19:46:55 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/28 21:14:49 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,10 @@ Color& Color::operator/=(const unit factor)
 	return *this;;
 }
 
+Color Color::operator*(const Color& other) const
+{
+	return Color{r() * other.r(), g() * other.g(), b() * other.b()}; 
+}
 Color Color::operator*(const unit factor) const
 {
 	return Color{r() * factor, g() * factor, b() * factor}; 

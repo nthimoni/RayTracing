@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 21:36:59 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/28 05:36:31 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/28 21:26:44 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <memory>
 
 Sphere::Sphere(const Point3& center, const unit radius, std::shared_ptr<Material> mat)
-	: _center(center), _radius(radius) { this->mat = mat; }
+	: _center(center), _radius(radius) { this->_mat = mat; }
 
 bool Sphere::hit(const Ray& ray, unit t_min, unit t_max, Inter& inter) const
 {
@@ -46,6 +46,6 @@ bool Sphere::hit(const Ray& ray, unit t_min, unit t_max, Inter& inter) const
 	inter.pos = ray.at(inter.t);
 	Vec3 tmpNormal{(inter.pos - _center) / _radius};
 	inter.setFaceNormal(ray, tmpNormal);
-
+	inter.material = _mat;
 	return true;
 }

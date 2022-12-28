@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 22:22:15 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/21 23:56:22 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/28 20:56:49 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,16 @@ Vec3 Vec3::cross(const Vec3& ent) const
 	return Vec3{y * ent.z - z * ent.y,
 				z * ent.x - x * ent.z,
 				x * ent.y - y * ent.x};
+}
+
+bool Vec3::nearZero() const
+{
+	return (std::abs(x) < delta && std::abs(y) < delta && std::abs(z) < delta);
+}
+
+Vec3 Vec3::reflect(const Vec3& n) const
+{
+	return *this - (n * 2 * this->dot(n));
 }
 
 Vec3& Vec3::operator+=(const Vec3& ent)

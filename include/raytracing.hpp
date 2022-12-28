@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 19:40:47 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/23 04:27:56 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/28 20:34:01 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 using unit = double;
 
 constexpr unit infinity = std::numeric_limits<unit>::infinity();
+constexpr unit delta = 1e-8;
 
 inline unit degreesToRadians(const unit degrees)
 {

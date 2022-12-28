@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 04:47:17 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/28 03:56:37 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/28 21:34:38 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 
 #include "raytracing.hpp"
 #include "Hittable.hpp"
+#include "Material.hpp"
+#include "Lambertian.hpp"
+#include "Metal.hpp"
 #include "Camera.hpp"
 #include "Sphere.hpp"
 #include "HittableList.hpp"
@@ -31,6 +34,10 @@ Color defineColor(const Ray& ray, const HittableList& scene, int depth)
 	Inter inter;
 	if (scene.hit(ray, 0.001, infinity, inter))
 	{
+		Ray scattered;
+		Color attenuation;
+		if (inter.material->scatter(ray, inter, attenuation, scattered))
+			return attenuation * defineColor(scattered, scene, depth - 1);
 		Point3 target = inter.pos + inter.normal + inter.randomInUnitSphere().getUnitVec();
 		return defineColor(Ray{inter.pos, target - inter.pos}, scene, depth - 1) * 0.5;
 	}
@@ -44,7 +51,7 @@ int main()
 {
 	// GENERAL
 	constexpr int maxDepth = 3;
-	constexpr int sampelsPerPixel = 100;
+	constexpr int sampelsPerPixel = 1000;
 	// IMG
 	constexpr unit ratio = 16.0 / 9.0;
     constexpr int image_width = 800;
@@ -55,10 +62,21 @@ int main()
 
 	//SCENE
 	HittableList scene;
-	scene.add(std::make_shared<Sphere>(Point3(0, 0, -1), 0.5));
+	auto material_ground = std::make_shared<Lambertian>(Color(0.8, 0.8, 0.0));
+    auto material_center = std::make_shared<Lambertian>(Color(0.7, 0.3, 0.3));
+    auto material_left   = std::make_shared<Metal>(Color(0.8, 0.8, 0.8));
+    auto material_right  = std::make_shared<Metal>(Color(0.8, 0.6, 0.2));
+
+	scene.add(std::make_shared<Sphere>(Point3(0, 0, -1), 0.5, material_center));
+	scene.add(make_shared<Sphere>(Point3(-1.0,    0.0, -1.0),   0.5, material_left));
+    scene.add(make_shared<Sphere>(Point3( 1.0,    0.0, -1.0),   0.5, material_right));
 	//scene.add(std::make_shared<Sphere>(Point3(0.5, 0, -1), 0.5));
 	//scene.add(std::make_shared<Sphere>(Point3(-0.5, 0, -1), 0.5));
-	scene.add(std::make_shared<Sphere>(Point3(0, -150.5, -1), 150));
+	scene.add(std::make_shared<Sphere>(Point3(0, -150.5, -1), 150, material_ground));
+
+
+
+
 
 	std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 	for (int j = image_height-1; j >= 0; --j) {
