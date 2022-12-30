@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:09:02 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/28 21:14:49 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/30 02:02:08 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@
 
 Color::Color(const int color)
 {
-	*(int*)_bgra = color;
+	b() = ((unsigned char*)&color)[0] / 255.999;
+	g() = ((unsigned char*)&color)[1] / 255.999;
+	r() = ((unsigned char*)&color)[2] / 255.999;
+	a() = ((unsigned char*)&color)[3] / 255.999;
 }
 
 Color::Color(unit r, unit g, unit b, unit a) : _bgra{b, g, r, a} {}
@@ -33,12 +36,20 @@ const unit& Color::g() const { return _bgra[1]; }
 const unit& Color::b() const { return _bgra[0]; }
 const unit& Color::a() const { return _bgra[3]; }
 
-int Color::toInt() const
+
+int Color::toInt(int spp) const
 {
-	unsigned char color[4]{static_cast<unsigned char>(_bgra[0] * 255.999),
-							static_cast<unsigned char>(_bgra[1] * 255.999),
-							static_cast<unsigned char>(_bgra[2] * 255.999),
-							static_cast<unsigned char>(_bgra[3] * 255.999)};
+	unit scale = 1.0 / spp;
+	unit r = scale * this->r();
+	unit g = scale * this->g();
+	unit b = scale * this->b();
+	unit a = scale * this->a();
+
+	unsigned char color[4]{static_cast<unsigned char>(clamp(b, 0, 0.999) * 255.999),
+		static_cast<unsigned char>(clamp(g, 0, 0.999) * 255.999),
+		static_cast<unsigned char>(clamp(r, 0, 0.999) * 255.999),
+		static_cast<unsigned char>(clamp(a, 0, 0.999) * 255.999)};
+		
 	return *(int*)color;
 }
 
@@ -69,7 +80,7 @@ Color Color::operator*(const Color& other) const
 }
 Color Color::operator*(const unit factor) const
 {
-	return Color{r() * factor, g() * factor, b() * factor}; 
+	return Color{r() * factor, g() * factor, b() * factor, a()}; 
 }
 
 void Color::print(std::ostream& out, int spp) const
@@ -82,6 +93,11 @@ void Color::print(std::ostream& out, int spp) const
 	out << static_cast<int>(clamp(r, 0, 0.999) * 256)
 		<< " " << static_cast<int>(clamp(g, 0, 0.999) * 256)
 		<< " " << static_cast<int>(clamp(b, 0, 0.999) * 256);	
+}
+
+Color Color::gammaCorrection() const
+{
+	return {std::sqrt(r()), std::sqrt(g()), std::sqrt(b()), a()};
 }
 
 

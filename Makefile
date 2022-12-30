@@ -5,7 +5,8 @@ MLXPATH = minilibx-linux/
 MLX = $(MLXPATH)libmlx.a
 ######################################################################
 SRCS = main.cpp Tup3.cpp Vec3.cpp Point3.cpp Color.cpp Ray.cpp Sphere.cpp \
-	   HittableList.cpp Camera.cpp Lambertian.cpp Metal.cpp
+	   HittableList.cpp Camera.cpp Lambertian.cpp Metal.cpp Img.cpp MLXRenderer.cpp 
+
 OBJS = $(addprefix $(OBJDIR),$(SRCS:.cpp=.o))
 DEPENDS = $(OBJS:.o=.d)
 ######################################################################
@@ -16,7 +17,7 @@ INCPATH = -I$(INCDIR) -I$(MLXPATH)
 LIBPATH = -L$(MLXPATH)
 NAME = RayTracing
 VAL = valgrind --leak-check=full ./$(NAME) input.rt
-RUN = ./$(NAME) input.rt > img.ppm && eog img.ppm
+RUN = ./$(NAME) input.rt #> img2.ppm && eog img2.ppm
 ######################################################################
 all: $(NAME)
 	$(RUN)

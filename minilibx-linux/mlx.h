@@ -31,7 +31,7 @@
 
 #define	MLX_H
 
-
+extern "C" {
 void	*mlx_init();
 /*
 **  needed before everything else.
@@ -135,5 +135,5 @@ int	mlx_mouse_hide(void *mlx_ptr, void *win_ptr);
 int	mlx_mouse_show(void *mlx_ptr, void *win_ptr);
 
 int	mlx_get_screen_size(void *mlx_ptr, int *sizex, int *sizey);
-
+}
 #endif /* MLX_H */

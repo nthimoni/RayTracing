@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 20:00:12 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/28 21:15:06 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/29 21:51:54 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ class Color
 		const unit& b() const;
 		const unit& a() const;
 		void print(std::ostream& out, int spp) const;
-		int toInt() const;
+		int toInt(int spp) const;
+		Color gammaCorrection() const;
 
 		Color& operator=(const Color& ent) = default;
 		Color& operator+=(const Color& rhs);
