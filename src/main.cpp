@@ -6,13 +6,16 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 04:47:17 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/30 06:06:11 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/31 06:29:29 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cmath>
+#include <functional>
 #include <iostream>
 #include <memory>
+#include <thread>
+#include <vector>
 
 #include "MLXRenderer.hpp"
 #include "raytracing.hpp"
@@ -48,30 +51,50 @@ Color defineColor(const Ray& ray, const HittableList& scene, int depth)
 }
 
 
+
+void threadRoutine(int threadId, const HittableList& scene, MLXRenderer& renderer, const Camera& cam)
+{
+	for (int j = image_height-1; j >= 0; --j) {
+		//std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
+		for (int i = threadId; i < image_width ; i += threadCount) {
+			Color pixelColor{0, 0, 0};
+			for (int s = 0; s < spp; s++) {
+				auto u = (i + random_unit()) / (image_width-1);
+				auto v = (j + random_unit()) / (image_height-1);
+				Ray r = cam.getRay(u, v);
+				pixelColor += defineColor(r, scene, maxDepth);
+			}
+			//pixelColor.print(std::cout, sampelsPerPixel);
+			//std::cout << '\n';
+			renderer.fillSample(i, image_height - 1 - j, pixelColor, spp);
+		}
+	}
+}
+
 int main()
 {
-	// GENERAL
-	constexpr int maxDepth = 50;
-	constexpr int sampelsPerPixel = 100;
-	// IMG
-	constexpr unit ratio = 16.0 / 9.0;
-    constexpr int image_width = 800;
-    constexpr int image_height = static_cast<int>(image_width / ratio);
-
 	// CAM
 	Camera cam{{0, 0, 0}, ratio};
 
 	//SCENE
 	HittableList scene;
 	auto material_ground = std::make_shared<Lambertian>(Color(0.8, 0.8, 0.0));
-    auto material_center = std::make_shared<Lambertian>(Color(0.7, 0.3, 0.3));
-    auto material_left   = std::make_shared<Metal>(Color(0.8, 0.8, 0.8));
+    auto material_left = std::make_shared<Lambertian>(Color(0.7, 0.3, 0.3));
+    auto material_center   = std::make_shared<Metal>(Color(0.8, 0.8, 0.8));
     auto material_right  = std::make_shared<Metal>(Color(0.8, 0.6, 0.2));
+	auto red = std::make_shared<Lambertian>(Color(0.9, 0.1, 0.1));
+	auto green = std::make_shared<Lambertian>(Color(0.3, 0.6, 0.1));
+	auto blue = std::make_shared<Lambertian>(Color(0.2, 0.2, 0.8));
+	auto little = std::make_shared<Lambertian>(Color(0.2, 0.8, 1));
 
-	scene.add(std::make_shared<Sphere>(Point3(0, 0, -1), 0.5, material_center));
-	scene.add(make_shared<Sphere>(Point3(-1, 0, -1), 0.5, material_left));
-    scene.add(make_shared<Sphere>(Point3( 1, 0, -1), 0.5, material_right));
+	scene.add(make_shared<Sphere>(Point3(-1, 0, -1), 0.3, material_left));
+	scene.add(make_shared<Sphere>(Point3(-0.3, -0.2, -0.4), 0.11, material_center));
 	scene.add(make_shared<Sphere>(Point3(1, 0, 1), 0.5, material_ground));
+    scene.add(make_shared<Sphere>(Point3( 1, 0, -1), 0.5, blue));
+    scene.add(make_shared<Sphere>(Point3( 0.5, 0.3, -0.9), 0.06, green));
+    scene.add(make_shared<Sphere>(Point3(0.15, -0.4, -0.6), 0.06, little));
+	scene.add(make_shared<Sphere>(Point3(0, 0, -1), 0.5, material_center));
+	scene.add(make_shared<Sphere>(Point3(0.5, -0.4, -0.7), 0.06, red));
 	//scene.add(std::make_shared<Sphere>(Point3(0.5, 0, -1), 0.5));
 	//scene.add(std::make_shared<Sphere>(Point3(-0.5, 0, -1), 0.5));
 	scene.add(std::make_shared<Sphere>(Point3(0, -150.5, -1), 150, material_ground));
@@ -83,24 +106,26 @@ int main()
 		return 0;
 
 	std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
-	for (int b = 0; b < 1000; b++)
+	for (int b = 0; b < 10000; b++)
 	{
-	for (int j = image_height-1; j >= 0; --j) {
-		//std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
-		for (int i = 0; i < image_width ; ++i) {
-			Color pixelColor{0, 0, 0};
-			for (int s = 0; s < sampelsPerPixel; s++) {
-				auto u = (i + random_unit()) / (image_width-1);
-				auto v = (j + random_unit()) / (image_height-1);
-				Ray r = cam.getRay(u, v);
-				pixelColor += defineColor(r, scene, maxDepth);
-			}
-			//pixelColor.print(std::cout, sampelsPerPixel);
-			//std::cout << '\n';
-			renderer.fillSample(i, image_height - 1 - j, pixelColor, sampelsPerPixel);
+
+		std::vector<std::thread> threads(threadCount);
+		for (int i = threadCount - 1; i > 0; --i)
+		{
+			std::thread t(threadRoutine, i, std::ref(scene), std::ref(renderer),
+					std::ref(cam));
+			threads.push_back(move(t));
 		}
-	}
-	renderer.render();
+		threadRoutine(0, scene, renderer, cam);
+
+
+
+		for (auto& t : threads)
+		{
+			if(t.joinable())
+				t.join();
+		}
+		renderer.render();
 	}
 	
 

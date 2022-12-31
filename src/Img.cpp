@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 06:14:52 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/30 06:05:56 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/31 05:41:25 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ Img::Img(int width, int height, void* mlx_ptr) :
 
 Img::~Img()
 {
-	mlx_destroy_image(_mlx_ptr, _img);
+	//mlx_destroy_image(_mlx_ptr, _img);
 }
 
 void Img::setPixel(int x, int y, const Color& color, int spp)
@@ -61,7 +61,7 @@ void* Img::getImg() const
 		for (int j = 0; j < height; j++)
 		{
 			char *dst = _addr + (j * _line_length + i * (_bpp / 8));
-			*(unsigned int*)dst = _tab[i][j].gammaCorrection().toInt(1);
+			*(unsigned int*)dst = _tab[i][j].toInt(1);
 		}
 	}
 	return _img;

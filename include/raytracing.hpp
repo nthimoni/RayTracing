@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 19:40:47 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/28 20:34:01 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/31 06:29:56 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,17 @@
 # include <iomanip>
 
 using unit = double;
+
+// GENERAL
+constexpr int maxDepth = 30;
+constexpr int spp = 100;
+constexpr int threadCount = 90;
+
+// IMG
+constexpr unit ratio = 16.0 / 9.0;
+constexpr int image_width = 800;
+constexpr int image_height = static_cast<int>(image_width / ratio);
+
 
 constexpr unit infinity = std::numeric_limits<unit>::infinity();
 constexpr unit delta = 1e-8;

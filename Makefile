@@ -10,7 +10,8 @@ SRCS = main.cpp Tup3.cpp Vec3.cpp Point3.cpp Color.cpp Ray.cpp Sphere.cpp \
 OBJS = $(addprefix $(OBJDIR),$(SRCS:.cpp=.o))
 DEPENDS = $(OBJS:.o=.d)
 ######################################################################
-CC = g++ -g
+CC = g++ -O3
+OPTIONALDEFINE = -DCPP_TAG
 CFLAGS = -Wall -Wextra -Werror -MMD -MP -std=c++20
 LINK = -lmlx -lm -lXext -lX11
 INCPATH = -I$(INCDIR) -I$(MLXPATH)
@@ -28,7 +29,7 @@ $(NAME): $(OBJDIR) $(MLX) $(OBJS)
 -include $(DEPENDS)
 
 $(OBJDIR)%.o: $(SRCDIR)%.cpp
-	$(CC) -c $(CFLAGS) $(INCPATH) $< -o $@
+	$(CC) -c $(CFLAGS) $(OPTIONALDEFINE) $(INCPATH) $< -o $@
 
 $(MLX):
 	make -C $(MLXPATH)
