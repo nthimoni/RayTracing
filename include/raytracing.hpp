@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 19:40:47 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/31 06:29:56 by nthimoni         ###   ########.fr       */
+/*   Updated: 2023/01/01 18:16:35 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 using unit = double;
 
 // GENERAL
-constexpr int maxDepth = 30;
+constexpr int maxDepth = 50;
 constexpr int spp = 100;
 constexpr int threadCount = 90;
 

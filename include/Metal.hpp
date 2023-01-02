@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 20:45:13 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/28 20:52:11 by nthimoni         ###   ########.fr       */
+/*   Updated: 2022/12/31 17:24:31 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ class Metal : public Material
 	public:
 		Metal() = default;
 		Metal(const Metal& ent) = default;
-		Metal(const Color& color);
+		Metal(const Color& color, unit fuziness);
 		~Metal() = default;
 
 		virtual bool scatter(const Ray& in, const Inter& inter,
@@ -30,6 +30,7 @@ class Metal : public Material
 
 	private:
 		Color _color;
+		unit _fuziness;
 };
 
 #endif 

@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 04:47:17 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/31 06:29:29 by nthimoni         ###   ########.fr       */
+/*   Updated: 2023/01/01 18:16:44 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,19 +80,22 @@ int main()
 	HittableList scene;
 	auto material_ground = std::make_shared<Lambertian>(Color(0.8, 0.8, 0.0));
     auto material_left = std::make_shared<Lambertian>(Color(0.7, 0.3, 0.3));
-    auto material_center   = std::make_shared<Metal>(Color(0.8, 0.8, 0.8));
-    auto material_right  = std::make_shared<Metal>(Color(0.8, 0.6, 0.2));
+    auto material_center   = std::make_shared<Metal>(Color(0.8, 0.8, 0.8), 0.0);
+    auto material_center2   = std::make_shared<Metal>(Color(0.8, 0.8, 0.8), 0.0);
+    auto material_right  = std::make_shared<Metal>(Color(0.8, 0.6, 0.2), 0);
 	auto red = std::make_shared<Lambertian>(Color(0.9, 0.1, 0.1));
 	auto green = std::make_shared<Lambertian>(Color(0.3, 0.6, 0.1));
 	auto blue = std::make_shared<Lambertian>(Color(0.2, 0.2, 0.8));
 	auto little = std::make_shared<Lambertian>(Color(0.2, 0.8, 1));
+	auto purple = std::make_shared<Lambertian>(Color(0.8, 0.0, 0.8));
 
 	scene.add(make_shared<Sphere>(Point3(-1, 0, -1), 0.3, material_left));
-	scene.add(make_shared<Sphere>(Point3(-0.3, -0.2, -0.4), 0.11, material_center));
+	scene.add(make_shared<Sphere>(Point3(-0.3, -0.2, -0.4), 0.11, material_center2));
 	scene.add(make_shared<Sphere>(Point3(1, 0, 1), 0.5, material_ground));
     scene.add(make_shared<Sphere>(Point3( 1, 0, -1), 0.5, blue));
     scene.add(make_shared<Sphere>(Point3( 0.5, 0.3, -0.9), 0.06, green));
     scene.add(make_shared<Sphere>(Point3(0.15, -0.4, -0.6), 0.06, little));
+    scene.add(make_shared<Sphere>(Point3(0.35, 0.4, -0.6), 0.09, purple));
 	scene.add(make_shared<Sphere>(Point3(0, 0, -1), 0.5, material_center));
 	scene.add(make_shared<Sphere>(Point3(0.5, -0.4, -0.7), 0.06, red));
 	//scene.add(std::make_shared<Sphere>(Point3(0.5, 0, -1), 0.5));
@@ -106,7 +109,7 @@ int main()
 		return 0;
 
 	std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
-	for (int b = 0; b < 10000; b++)
+	for (int b = 0; b < 100; b++)
 	{
 
 		std::vector<std::thread> threads(threadCount);
