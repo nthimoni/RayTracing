@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 06:14:52 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/31 05:41:25 by nthimoni         ###   ########.fr       */
+/*   Updated: 2023/01/06 23:30:36 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 Img::Img(int width, int height, void* mlx_ptr) :
 	width(width), height(height), _mlx_ptr(mlx_ptr), _tab(width)
 {
-	for (int i = 0; i < width;i++)
+	for (int i = 0; i < width; i++)
 		for (int u = 0; u < height; u++)
 			_tab[i].push_back({0, 0, 0});
 	std::cout <<"size: " <<  _tab.size() << " " << _tab[0].size() << std::endl;

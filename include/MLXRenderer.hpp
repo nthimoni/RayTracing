@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 04:29:17 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/29 08:52:23 by nthimoni         ###   ########.fr       */
+/*   Updated: 2023/01/06 21:18:12 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@
 # include "mlx.h"
 # include "Color.hpp"
 # include "Img.hpp"
+#include <memory>
 
 class MLXRenderer
 {
 	public:
-		MLXRenderer() = default;
+		MLXRenderer() = delete;
 		MLXRenderer(int width, int height, const char* title = "Default");
 		MLXRenderer(const MLXRenderer& ent) = delete;
 		~MLXRenderer();

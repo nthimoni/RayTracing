@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 05:02:38 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/31 03:59:41 by nthimoni         ###   ########.fr       */
+/*   Updated: 2023/01/06 23:22:44 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ MLXRenderer::MLXRenderer(int width, int height, const char* title)
 
 MLXRenderer::~MLXRenderer()
 {
+	mlx_destroy_image(_mlx_ptr, _buffer.getImg());
+	mlx_destroy_image(_mlx_ptr, _next.getImg());
 	mlx_destroy_window(_mlx_ptr, _mlx_win);
 	mlx_destroy_display(_mlx_ptr);
 	free(_mlx_ptr);
@@ -57,6 +59,7 @@ void MLXRenderer::render()
 			if (_buffer.getPixel(x, y).toInt(1) != tmp.toInt(_nbSamples + 1))
 				count++;
 			_buffer.setPixel(x, y, (tmp *(1/ (_nbSamples + 1.0))), 1);
+			//mlx_pixel_put(_mlx_ptr, _mlx_win, x, y,(tmp *(1/ (_nbSamples + 1.0))).toInt(1) );
 		}
 	}
 	std::cerr << "Changes : " << count << std::endl;
