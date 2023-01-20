@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 04:47:17 by nthimoni          #+#    #+#             */
-/*   Updated: 2023/01/07 06:20:12 by nthimoni         ###   ########.fr       */
+/*   Updated: 2023/01/20 16:58:03 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int main()
 		return 0;
 
 	std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
-	for (int b = 0; b < 1; b++)
+	for (int b = 0; b < 100000; b++)
 	{
 
 		std::vector<std::thread> threads(threadCount);
