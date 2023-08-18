@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 04:47:17 by nthimoni          #+#    #+#             */
-/*   Updated: 2023/01/20 16:58:03 by nthimoni         ###   ########.fr       */
+/*   Updated: 2023/08/18 19:07:01 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,11 @@
 #include <vector>
 
 #include "MLXRenderer.hpp"
-#include "mlx.h"
 #include "raytracing.hpp"
 #include "Hittable.hpp"
-#include "Material.hpp"
 #include "Lambertian.hpp"
 #include "Metal.hpp"
+#include "Glass.hpp"
 #include "Camera.hpp"
 #include "Sphere.hpp"
 #include "HittableList.hpp"
@@ -81,7 +80,8 @@ int main()
 	//SCENE
 	HittableList scene;
 	auto material_ground = std::make_shared<Lambertian>(Color(0.8, 0.8, 0.0));
-    auto material_left = std::make_shared<Lambertian>(Color(0.7, 0.3, 0.3));
+    //auto material_left = std::make_shared<Lambertian>(Color(0.7, 0.3, 0.3));
+    auto material_left = std::make_shared<Glass>(1.5);
     auto material_center   = std::make_shared<Metal>(Color(0.8, 0.8, 0.8), 0.0);
     auto material_center2   = std::make_shared<Metal>(Color(0.8, 0.8, 0.8), 0.0);
     auto material_right  = std::make_shared<Metal>(Color(0.8, 0.6, 0.2), 0);
@@ -91,14 +91,16 @@ int main()
 	auto little = std::make_shared<Lambertian>(Color(0.2, 0.8, 1));
 	auto purple = std::make_shared<Lambertian>(Color(0.8, 0.0, 0.8));
 
-	scene.add(make_shared<Sphere>(Point3(-1, 0, -1), 0.3, material_left));
-	scene.add(make_shared<Sphere>(Point3(-0.3, -0.2, -0.4), 0.11, material_center2));
+	scene.add(make_shared<Sphere>(Point3(-1, 0, -1), 0.3, red));
+	//scene.add(make_shared<Sphere>(Point3(-0.3, -0.2, -0.4), 0.11, material_center2));
+	scene.add(make_shared<Sphere>(Point3(-0.3, -0.2, -0.4), 0.11, material_left));
 	scene.add(make_shared<Sphere>(Point3(1, 0, 1), 0.5, material_ground));
     scene.add(make_shared<Sphere>(Point3( 1, 0, -1), 0.5, blue));
     scene.add(make_shared<Sphere>(Point3( 0.5, 0.3, -0.9), 0.06, green));
-    scene.add(make_shared<Sphere>(Point3(0.15, -0.4, -0.6), 0.06, little));
+    scene.add(make_shared<Sphere>(Point3(0.15, -0.4, -0.6), 0.06, material_left));
     scene.add(make_shared<Sphere>(Point3(0.35, 0.4, -0.6), 0.09, purple));
-	scene.add(make_shared<Sphere>(Point3(0, 0, -1), 0.5, material_center));
+	//scene.add(make_shared<Sphere>(Point3(0, 0, -1), 0.5, material_center));
+	scene.add(make_shared<Sphere>(Point3(0, 0, -1), 0.5, material_left));
 	scene.add(make_shared<Sphere>(Point3(0.5, -0.4, -0.7), 0.06, red));
 	//scene.add(std::make_shared<Sphere>(Point3(0.5, 0, -1), 0.5));
 	//scene.add(std::make_shared<Sphere>(Point3(-0.5, 0, -1), 0.5));

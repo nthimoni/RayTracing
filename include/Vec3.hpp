@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 21:34:03 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/28 20:57:00 by nthimoni         ###   ########.fr       */
+/*   Updated: 2023/08/12 19:03:58 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ class Vec3 : public Tup3
 		Vec3 cross(const Vec3& ent) const;
 		bool nearZero() const;
 		Vec3 reflect(const Vec3& n) const;
+		Vec3 refract(const Vec3& n, unit etaiOverEtat) const;
 
 		static inline Vec3 random()
 			{ return {random_unit(), random_unit(), random_unit()}; }

@@ -6,10 +6,11 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 22:22:15 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/28 20:56:49 by nthimoni         ###   ########.fr       */
+/*   Updated: 2023/08/18 19:24:45 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <cmath>
 #include <iostream>
 
 #include "Vec3.hpp"
@@ -72,6 +73,15 @@ bool Vec3::nearZero() const
 Vec3 Vec3::reflect(const Vec3& n) const
 {
 	return *this - (n * 2 * this->dot(n));
+}
+
+Vec3 Vec3::refract(const Vec3& n, unit etaiOverEtat) const
+{
+	auto reverse = (*this);
+	auto cos_theta = fmin(reverse.dot(n), 1.0);
+	Vec3 r_out_perp = (*this + n * cos_theta) * etaiOverEtat;
+	Vec3 r_out_parallel = n * -sqrt(fabs(1.0 - r_out_perp.lengthSquared()));
+	return r_out_perp + r_out_parallel;
 }
 
 Vec3& Vec3::operator+=(const Vec3& ent)

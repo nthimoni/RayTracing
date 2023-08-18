@@ -5,7 +5,8 @@ MLXPATH = minilibx-linux/
 MLX = $(MLXPATH)libmlx.a
 ######################################################################
 SRCS = main.cpp Tup3.cpp Vec3.cpp Point3.cpp Color.cpp Ray.cpp Sphere.cpp \
-	   HittableList.cpp Camera.cpp Lambertian.cpp Metal.cpp Img.cpp MLXRenderer.cpp 
+	   HittableList.cpp Camera.cpp Lambertian.cpp Metal.cpp Img.cpp MLXRenderer.cpp \
+	   Glass.cpp
 
 OBJS = $(addprefix $(OBJDIR),$(SRCS:.cpp=.o))
 DEPENDS = $(OBJS:.o=.d)
@@ -36,6 +37,7 @@ $(MLX):
 
 $(OBJDIR):
 	@mkdir -p $(OBJDIR)
+	gencc
 
 run:
 	$(RUN)
@@ -50,6 +52,7 @@ fclean: clean
 	make clean -C $(MLXPATH)
 	rm -f $(NAME)
 
-re: fclean $(NAME) run 
+re: fclean $(NAME)
+	$(RUN) 
 
 .PHONY: all clean fclean re
