@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 05:38:17 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/28 20:52:26 by nthimoni         ###   ########.fr       */
+/*   Updated: 2023/08/21 19:30:00 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ class Lambertian : public Material
 		Lambertian() = default;
 		Lambertian(const Lambertian& ent) = default;
 		Lambertian(const Color& col);
-		~Lambertian() = default;
+		virtual ~Lambertian() = default;
 
 		virtual bool scatter(const Ray& in, const Inter& inter,
 				Color& attenuation, Ray& scattered) const override;

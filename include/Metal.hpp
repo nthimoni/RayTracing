@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 20:45:13 by nthimoni          #+#    #+#             */
-/*   Updated: 2022/12/31 17:24:31 by nthimoni         ###   ########.fr       */
+/*   Updated: 2023/08/21 19:30:13 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ class Metal : public Material
 		Metal() = default;
 		Metal(const Metal& ent) = default;
 		Metal(const Color& color, unit fuziness);
-		~Metal() = default;
+		virtual ~Metal() = default;
 
 		virtual bool scatter(const Ray& in, const Inter& inter,
 				Color& attenuation, Ray& scattered) const override;
