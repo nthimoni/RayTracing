@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 16:41:37 by nthimoni          #+#    #+#             */
-/*   Updated: 2023/08/21 18:58:38 by nthimoni         ###   ########.fr       */
+/*   Updated: 2023/08/22 19:28:49 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,15 @@ bool Glass::scatter(const Ray& in, const Inter& inter,
 
 	Vec3 direction = in.direction().getUnitVec();
 
-	//unit cosTheta = fmin((-direction).dot(inter.normal), 1.0);
-	//unit sinTheta = sqrt(1.0 - cosTheta * cosTheta);
+	unit cosTheta = fmin((-direction).dot(inter.normal), 1.0);
+	unit sinTheta = sqrt(1.0 - cosTheta * cosTheta);
 
-	//bool cantRefract = refractionRatio * sinTheta > 1.0;
+	bool cantRefract = refractionRatio * sinTheta > 1.0;
 
 	Vec3 newDirection;
-	//if (cantRefract)
-	//	newDirection = direction.reflect(inter.normal);
-	//else
+	if (cantRefract)
+		newDirection = direction.reflect(inter.normal);
+	else
 		newDirection = direction.refract(inter.normal, refractionRatio);
 
 	scattered = Ray(inter.pos, newDirection);

@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 04:47:17 by nthimoni          #+#    #+#             */
-/*   Updated: 2023/08/21 19:29:28 by nthimoni         ###   ########.fr       */
+/*   Updated: 2023/08/22 19:24:40 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ Color defineColor(const Ray& ray, const HittableList& scene, int depth)
 		Ray scattered;
 		Color attenuation;
 		if (inter.material->scatter(ray, inter, attenuation, scattered))
+		{
 			return attenuation * defineColor(scattered, scene, depth - 1);
+		}
 		Point3 target = inter.pos + inter.normal + inter.randomInUnitSphere().getUnitVec();
 		return defineColor(Ray{inter.pos, target - inter.pos}, scene, depth - 1) * 0.5;
 	}
@@ -109,12 +111,13 @@ int main()
 	auto material_ground = std::make_shared<Lambertian>(Color(0.8, 0.8, 0.0));
 auto material_center = std::make_shared<Glass>(1.5);
 auto material_left   = std::make_shared<Glass>(1.5);
-auto material_right  = std::make_shared<Metal>(Color(0.8, 0.6, 0.2), 1.0);
+//auto material_right  = std::make_shared<Metal>(Color(0.8, 0.6, 0.2), 1.0);
+auto material_right  = std::make_shared<Lambertian>(Color(0.8, 0.6, 0.2));
 
 scene.add(make_shared<Sphere>(Point3( 0.0, -100.5, -1.0), 100.0, material_ground));
     scene.add(make_shared<Sphere>(Point3( 0.0,    0.0, -1.0),   0.5, material_center));
-    scene.add(make_shared<Sphere>(Point3(-1.0,    0.0, -1.0),   0.5, material_left));
-    scene.add(make_shared<Sphere>(Point3( 1.0,    0.0, -1.0),   0.5, material_right));
+//    scene.add(make_shared<Sphere>(Point3(-1.0,    0.0, -1.0),   0.5, material_left));
+//    scene.add(make_shared<Sphere>(Point3( 1.0,    0.0, -1.0),   0.5, material_right));
 
 	MLXRenderer renderer{image_width, image_height, "RayTracing"};
 	if (!renderer.isInit())

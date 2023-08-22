@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 22:22:15 by nthimoni          #+#    #+#             */
-/*   Updated: 2023/08/21 19:22:29 by nthimoni         ###   ########.fr       */
+/*   Updated: 2023/08/22 19:30:50 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ Vec3 Vec3::refract(const Vec3& n, unit ir) const
 	auto cos_theta = fmin(reverse.dot(n), 1.0);
 	Vec3 r_out_perp = (*this + (n * cos_theta)) * ir;
 	Vec3 r_out_parallel = n * -sqrt(fabs(1.0 - r_out_perp.lengthSquared()));
-	return r_out_perp + r_out_parallel;
+	return r_out_perp + -r_out_parallel;
 }
 
 Vec3& Vec3::operator+=(const Vec3& ent)

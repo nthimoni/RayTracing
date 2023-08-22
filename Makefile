@@ -52,7 +52,7 @@ fclean: clean
 	make clean -C $(MLXPATH)
 	rm -f $(NAME)
 
-re: fclean $(NAME)
-	$(RUN) 
+re: fclean
+	make -j 
 
 .PHONY: all clean fclean re

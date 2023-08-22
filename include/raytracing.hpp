@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 19:40:47 by nthimoni          #+#    #+#             */
-/*   Updated: 2023/08/12 17:41:38 by nthimoni         ###   ########.fr       */
+/*   Updated: 2023/08/22 18:27:06 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ using unit = double;
 // GENERAL
 constexpr int maxDepth = 50;
 constexpr int spp = 1;
-constexpr int threadCount = 40;
+//constexpr int threadCount = 40;
+constexpr int threadCount = 1;
 
 // IMG
 constexpr unit ratio = 16.0 / 9.0;
