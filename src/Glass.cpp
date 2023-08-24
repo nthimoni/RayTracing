@@ -6,13 +6,17 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 16:41:37 by nthimoni          #+#    #+#             */
-/*   Updated: 2023/08/22 19:28:49 by nthimoni         ###   ########.fr       */
+/*   Updated: 2023/08/24 19:24:42 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Glass.hpp"
+#include "raytracing.hpp"
 #include "Ray.hpp"
 #include "Vec3.hpp"
+#include <cmath>
+
+static inline unit reflectance(unit cosine, unit refIdx);
 
 Glass::Glass(unit indexOfRefraction) : _indexOfRefraction(indexOfRefraction) {}
 
@@ -30,7 +34,7 @@ bool Glass::scatter(const Ray& in, const Inter& inter,
 	bool cantRefract = refractionRatio * sinTheta > 1.0;
 
 	Vec3 newDirection;
-	if (cantRefract)
+	if (cantRefract || reflectance(cosTheta, refractionRatio) > random_unit())
 		newDirection = direction.reflect(inter.normal);
 	else
 		newDirection = direction.refract(inter.normal, refractionRatio);
@@ -38,4 +42,11 @@ bool Glass::scatter(const Ray& in, const Inter& inter,
 	scattered = Ray(inter.pos, newDirection);
 
 	return true;
+}
+
+static inline unit reflectance(unit cosine, unit refIdx)
+{
+	auto r0 = (1 - refIdx) / (1 + refIdx);
+	r0 *= r0;
+	return r0 + (1 - r0) * pow((1 - cosine), 5);
 }

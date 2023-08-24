@@ -30,7 +30,7 @@ struct Inter
 	bool frontFace;
 	inline void setFaceNormal(const Ray& ray, const Vec3& outwardNormal)
 	{
-		frontFace = ray.direction().dot(outwardNormal);
+		frontFace = ray.direction().dot(outwardNormal) < 0;
 		normal = frontFace ? outwardNormal : -outwardNormal;
 	}
 	static inline Vec3 randomInUnitSphere()

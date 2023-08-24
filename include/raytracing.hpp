@@ -6,7 +6,7 @@
 /*   By: nthimoni <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 19:40:47 by nthimoni          #+#    #+#             */
-/*   Updated: 2023/08/22 18:27:06 by nthimoni         ###   ########.fr       */
+/*   Updated: 2023/08/24 20:40:39 by nthimoni         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,8 @@ using unit = double;
 
 // GENERAL
 constexpr int maxDepth = 50;
-constexpr int spp = 1;
-//constexpr int threadCount = 40;
-constexpr int threadCount = 1;
+constexpr int spp = 10;
+constexpr int threadCount = 8;
 
 // IMG
 constexpr unit ratio = 16.0 / 9.0;
@@ -43,7 +42,7 @@ inline unit degreesToRadians(const unit degrees)
 inline static unit random_unit() {
 	static std::random_device rd;
     static std::mt19937 generator(rd());
-    static std::uniform_real_distribution<unit> distribution(0.0, 0.99999999999);
+    static std::uniform_real_distribution<unit> distribution(0.0, 0.999);
     return distribution(generator);
 }
 
